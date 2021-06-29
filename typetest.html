@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+    <style type="text/css">
+    	*{padding: 0;margin: 0;box-sizing: border-box;}
+    	#maindiv{
+    		height: 100vh;
+    		width: 100%;
+    		position: relative;
+    		background-color: #3894db;
+    	}
+    	#centerdiv{
+    		position: absolute;
+    		top: 50%;
+    		left: 50%;
+    		transform: translate(-50%,-50%);
+    		/* background-color: grey;*/
+    		text-align: center;
+    	}
+    	#centerdiv h1{
+    		padding: 5px 0px;
+    		color: white;
+    	}
+    	#centerdiv h2{
+    		padding: 5px 0px;
+    		color: black;
+    		font-size: 14px;
+    	}
+    	#centerdiv textarea{
+    		background-color: grey;
+    		padding: 20px;
+    		font-size: 13px;
+    		color: white;
+    	}
+    	#centerdiv #btn{
+    		border-radius: 10px;
+    		color: black;
+    		background-color: white;
+    		margin: 10px 0px;
+    		padding: 10px;
+    	}
+    </style>
+</head>
+<body>
+	<div id="maindiv">
+	 <div id="centerdiv">
+		<h1>Welcome to the site</h1>
+		<h2 id="msg" class="msg"></h2><br>
+		<textarea id="typewords"class="typewords"placeholder="Remember ! Be Nice ."rows="10"cols="90" ></textarea><br>
+		<button id="btn">Start</button>
+   	 </div>
+	</div>
+	<script>
+		const setofwords=[
+         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt culpa, iste, quis nemo hic facere minus pariatur ullam. Totam pariatur, quos saepe ipsum maiores est molestias error ducimus debitis eius.",
+         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt culpa, iste, quis nemo hic facere minus pariatur ullam. Totam pariatur, quos saepe ipsum maiores est molestias error ducimus debitis eius.still you have to try",
+         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt culpa, iste, quis nemo hic facere minus pariatur ullam. Totam pariatur, quos saepe ipsum maiores est molestias error ducimus debitis eius.you have done it right way"
+		];
+		let msg=document.getElementById("msg");
+		let typewords=document.getElementById("typewords");
+		let btn=document.getElementById("btn");
+		let starttime,endtime;
+      const playgame = () =>{
+   	   let randomnum = Math.floor(Math.random() * setofwords.length);
+   	   msg.innerText = setofwords[randomnum];
+         btn.innerText = "Done";
+   	   let date = new Date();
+   	   starttime = date.getTime();
+   }
+
+  const endgame = () =>{
+  	let date = new Date();
+   	endtime = date.getTime();
+
+   	let totaltime = ((endtime-starttime)/1000);
+   	console.log(totaltime);
+     
+   
+
+   	let words = typewords.value;
+   	let counter = wordcounter(words);
+   	console.log(counter);
+
+   	let speed = Math.round((counter/totaltime)*60);
+   	console.log(speed); 
+
+   	let finalmsg = "you have typed at"+ speed +"words per minute."
+      
+      finalmsg+= comparewords(msg.innerText,words);
+
+   	msg.innerText = finalmsg;
+  }
+let comparewords = (str1,str2) =>{
+         let words1 = str1.split(" ");
+         let words2 = str2.split(" ");
+         let cnt=0;
+
+         words1.forEach(function(val,index){
+         	if(val==words2[index])
+         	{
+         		cnt++;
+         	}	
+         })
+
+        let errors = ( words1.length - cnt);
+         return (cnt+"correct out of "+ words1.length +" and total errors are"+ errors +"."); 
+     }
+     wordcounter = (str) =>{
+     let response = str.split(" ").length;
+     return response;
+ } 
+
+	btn.addEventListener("click",function(){
+		if(this.innerText == 'Start'){
+			typewords.disabled=false;
+			playgame();
+		}else if(this.innerText == 'Done'){
+			typewords.disabled=true;
+			btn.innerText ="Start";
+			endgame();
+		}
+	})	
+	</script>
+</body>
+</html>
